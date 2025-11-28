@@ -5,14 +5,14 @@ function Header() {
     return (
         <header className="header" >
             <div className="header-name">
-                <h3>Family-Organizer</h3>
+                <h3 className="text-lg font-semibold m-0">Family-Organizer</h3>
             </div>
             <div>
                 <Navigation />
             </div>
-            <div className="logout">
-                logout
-            </div>
+            <button className="ml-4 bg-red-500 hover:bg-red-600 px-3 py-1 rounded transition">
+                Logout
+            </button>
         </header>
     );
 }

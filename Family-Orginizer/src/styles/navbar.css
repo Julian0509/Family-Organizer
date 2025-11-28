@@ -1,9 +1,1 @@
-.navbar {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-}
+@import "tailwindcss";
