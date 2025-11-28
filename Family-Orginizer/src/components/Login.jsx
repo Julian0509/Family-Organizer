@@ -1,6 +1,10 @@
+import Layout from "./Layout";
 function Login() {
   return (
-    <p>login</p>
+    <div>
+        <Layout />
+        Login
+    </div>
   );
 }
 export default Login; 

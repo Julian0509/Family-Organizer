@@ -1,6 +1,11 @@
+import Layout from "./Layout";
+
 function Register() {
   return (
-    <p>Register</p>
+    <div>
+        <Layout />
+        Register
+    </div>
   );
 }
 export default Register; 

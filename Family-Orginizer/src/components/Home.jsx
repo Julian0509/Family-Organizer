@@ -1,6 +1,10 @@
+import Layout from "./Layout";
 function Home() {
   return (
-    <p>Home</p>
+    <div>
+        <Layout />
+        Home
+    </div>
   );
 }
 export default Home; 
