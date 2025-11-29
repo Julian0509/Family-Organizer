@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import "../styles/navbar.css";
+import "../styles/styling.css";
 
 
 const Navigation = () => {
@@ -7,8 +7,9 @@ const Navigation = () => {
         <>
         <nav className="flex gap-10 items-center">
             <Link to="/home" className="hover:text-gray-300 transition">Home</Link>
-            <Link to="/" className="hover:text-gray-300 transition">Login</Link>
+            <Link to="/login" className="hover:text-gray-300 transition">Login</Link>
             <Link to="/register" className="hover:text-gray-300 transition">Register</Link>
+            <Link to="/events" className="hover:text-gray-300 transition">Events</Link>
         </nav>
         <Outlet/>
         </>
