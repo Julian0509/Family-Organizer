@@ -1,6 +1,10 @@
 import  { useEffect, useState, useCallback } from "react";
+import Login from "./login";
+import Layout from "./Layout";
 
-const useFetchData = () => {
+
+const UseFetchData = () => {
+    const [token, setToken] = useState("");
     const [status, setStatus] = useState('idle');
     const [events, setEvent] = useState([{
         event:"", 
@@ -15,7 +19,14 @@ const useFetchData = () => {
 
   const fetchData = useCallback(() => {
     const url = "http://localhost:3002/all-events";
-    fetch(url)
+    const settings = {
+        method: "GET",
+        headers: {
+          Authorization: token,
+        },
+    };
+
+    fetch(url, settings)
       .then((response) => response.json())
       .then((incomingData) => {
         console.log(incomingData)
@@ -23,15 +34,33 @@ const useFetchData = () => {
         setStatus('fetched');
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  return { status, events };
-};
-export default useFetchData;
+  if (!token) {
+        return <Login setToken={setToken} />;
+    }
+
+    return (
+
+        <div>
+        <Layout></Layout>
+         <ul>
+           {events.map((event) => {
+               return (
+                <li key={event.familyId} > {event.location }</li>
+               )
+           })}
+       </ul>
+
+    </div>
+    )
+}
+
+export default UseFetchData;
 
 
 

@@ -1,6 +1,6 @@
 import useFetchData from "./FetchEvents";
 import Layout from "./Layout";
-import { useNavigate } from "react-router-dom";
+import Login from "./login";
 
 const ShowData = () => {
   const {status, events} = useFetchData();
@@ -18,8 +18,9 @@ const ShowData = () => {
 
     </div>
   );
-  let navigate = useNavigate();
-  navigate("/login");
+  return(
+    <Login></Login>
+  );
 };
 
 export default ShowData;
