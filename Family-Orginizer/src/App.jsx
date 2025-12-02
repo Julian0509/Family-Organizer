@@ -5,6 +5,7 @@ import Register from "./components/Register";
 import ShowData from "./components/Events";
 import UseFetchData from "./components/FetchEvents";
 import Kalender from "./components/Kalender";
+import Map from "./components/Map";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="login" element={<Login />}></Route>
       <Route path="register" element={<Register />}></Route>
       <Route path="events" element={<UseFetchData/>}></Route>
+      <Route path="map"element={<Map />}></Route>
     </Routes>
     </BrowserRouter>
   );
