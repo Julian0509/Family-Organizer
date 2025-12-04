@@ -3,8 +3,7 @@ import Login from "./login";
 import Layout from "./Layout";
 
 
-const UseFetchData = () => {
-    const [token, setToken] = useState("");
+const UseFetchData = (token) => {
     const [status, setStatus] = useState('idle');
     const [events, setEvent] = useState([{
         event:"", 
@@ -18,11 +17,15 @@ const UseFetchData = () => {
     }]);
 
   const fetchData = useCallback(() => {
+    if(!token){ 
+      return;
+    }
+    
     const url = "http://localhost:3002/all-events";
     const settings = {
         method: "GET",
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
     };
 
@@ -40,24 +43,7 @@ const UseFetchData = () => {
     fetchData();
   }, [fetchData]);
 
-  if (!token) {
-        return <Login setToken={setToken} />;
-    }
-
-    return (
-
-        <div>
-        <Layout></Layout>
-         <ul>
-           {events.map((event) => {
-               return (
-                <li key={event.familyId} > {event.location }</li>
-               )
-           })}
-       </ul>
-
-    </div>
-    )
+  return { events, status, refetch: fetchData };
 }
 
 export default UseFetchData;

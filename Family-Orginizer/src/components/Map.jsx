@@ -22,7 +22,7 @@ function Map() {
 
   return (
     <div>
-        <div className="w-[1100px] mt-5 h-[500px] overflow-hidden shadow-xl border border-[#a0a096] rounded-3xl ">
+        <div className="w-[1100px] mt-5 h-[500px] overflow-hidden shadow-3xl border border-[#a0a096] rounded-3xl ">
             <MapContainer 
             center={position} 
             zoom={13} 
