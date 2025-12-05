@@ -3,10 +3,13 @@ import Login from "./login";
 import useToken from "./useToken";
 import UseFetchData from "./FetchEvents";
 import { nanoid } from "nanoid";
+import AddEventModal from "./addEvent";
+import { useState } from "react";
 
 function Home() {
   const { token, setToken } = useToken();
   const { events, setEvent } = UseFetchData(token);
+  const [showModal, setShowModal] = useState(false);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); 
@@ -21,6 +24,18 @@ function Home() {
       return new Date(a.date) - new Date(b.date);
     });
 
+    const handleSaveEvent = (eventData) => {
+    return fetch('http://localhost:3002/new-event-entry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(eventData)
+    })
+      .then(data => data.json())
+      .then(window.location.reload());
+  };
+
   if (!token) {
     return <Login setToken={setToken} />;
   }
@@ -32,6 +47,18 @@ function Home() {
       <h2 className="text-xl font-semibold text-gray-800 mb-6">
         All Events
       </h2>
+      <button
+        onClick={() => setShowModal(true)}
+        className="fixed top-4 right-8 bg-gradient-to-br from-indigo-500 to-sky-500 
+            text-white px-6 py-3 rounded-full shadow-xl 
+            hover:scale-105 active:scale-95 transition-all">
+            + Add Event
+      </button>
+      <AddEventModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSave={handleSaveEvent}
+      />
 
       {upcomingEvents.length === 0 && (
         <p className="text-gray-500 text-center">No upcoming Events</p>
@@ -69,5 +96,7 @@ function Home() {
   </div>
 );
 };
+
+
 
 export default Home; 

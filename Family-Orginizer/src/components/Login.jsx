@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/styling.css";
+import { useNavigate } from "react-router-dom";
 
 async function loginUser(credentials) {
     return fetch('http://localhost:3002/login', {
@@ -13,10 +14,17 @@ async function loginUser(credentials) {
    }
 
 
+   
 function Login({ setToken }) {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
 
+    const navigate = useNavigate();
+
+    const goToRegister = () => {
+      navigate("/register");
+    }
+    
     const handleSubmit = async e => {
         e.preventDefault();
         const token = await loginUser({
@@ -24,7 +32,7 @@ function Login({ setToken }) {
           password
         });
         setToken(token);
-        console.log(token);
+        navigate("/");
       }
 
   return (
@@ -77,7 +85,7 @@ function Login({ setToken }) {
         </button>
 
         <button
-          type="submit"
+        onClick={goToRegister}
           className="w-full py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition duration-200 shadow-md"
         >
           Register

@@ -1,25 +1,20 @@
 import  { useEffect, useState, useCallback } from "react";
 
 
-const UseFetchData = (token) => {
+const UseFetchUsers = (token) => {
     const [status, setStatus] = useState('idle');
-    const [events, setEvent] = useState([{
-        event:"", 
-        date:"", 
-        startTime:"", 
-        endTime: "",
-        location: "",
-        requiredItems: "",
-        organiser: "",
+    const [users, setUser] = useState([{
+        user:"", 
+        role:"",
         familyId: ""
     }]);
 
-  const fetchData = useCallback(() => {
+  const fetchUser = useCallback(() => {
     if(!token){ 
       return;
     }
     
-    const url = "http://localhost:3002/all-events";
+    const url = "http://localhost:3002/all-users";
     const settings = {
         method: "GET",
         headers: {
@@ -30,21 +25,20 @@ const UseFetchData = (token) => {
     fetch(url, settings)
       .then((response) => response.json())
       .then((incomingData) => {
-        console.log(incomingData)
-        setEvent(incomingData);
+        setUser(incomingData);
         setStatus('fetched');
       })
       .catch((err) => console.error(err));
   }, [token]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchUser();
+  }, [fetchUser]);
 
-  return { events, status, refetch: fetchData };
+  return { users, status, refetch: fetchUser };
 }
 
-export default UseFetchData;
+export default UseFetchUsers;
 
 
 
