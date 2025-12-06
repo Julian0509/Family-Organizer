@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function AddEventModal({ show, onClose, onSave }) {
+export default function EditEventModal({ isOpen, onClose, event, onSave }) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
@@ -9,35 +9,19 @@ export default function AddEventModal({ show, onClose, onSave }) {
   const [requiredItems, setItems] = useState([]);
   const [itemInput, setItemInput] = useState("");
 
-function getUserFromToken() {
-  const token = sessionStorage.getItem("token");
-  if (!token) return null;
+  useEffect(() => {
+    if (event) {
+      setTitle(event.event || "");
+      setDate(event.date || "")
+      setStartTime(event.startTime || "");
+      setEndTime(event.endTime || "");
+      setLocation(event.location || "")
+      setItems(event.requiredItems || "")
+    }
+  }, [event]);
 
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.username; 
-  } catch (err) {
-    console.error("Token ungültig", err);
-    return null;
-  }
-}
-
-function getUserFamilyFromToken() {
-  const token = sessionStorage.getItem("token");
-  if (!token) return null;
-
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.familyId; 
-  } catch (err) {
-    console.error("Token ungültig", err);
-    return null;
-  }
-}
-
-  if (!show) return null; 
-
-  const addItem = () => {
+  if (!isOpen) return null;
+    const addItem = () => {
     if (itemInput.trim() === "") return;
     setItems([...requiredItems, itemInput]);
     setItemInput("");
@@ -45,24 +29,6 @@ function getUserFamilyFromToken() {
 
   const removeItem = (index) => {
     setItems(requiredItems.filter((_, i) => i !== index));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const newEvent = {
-      title,
-      date,
-      startTime,
-      endTime,
-      location,
-      requiredItems,
-      username: getUserFromToken(),
-      userfamily: getUserFamilyFromToken(),
-    };
-
-    onSave(newEvent);   
-    onClose();         
   };
 
   return (
@@ -73,7 +39,17 @@ function getUserFamilyFromToken() {
           New Event
         </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={() =>
+              onSave({
+                ...event,
+                event: title,
+                date,
+                startTime,
+                endTime,
+                location,
+                removeItem
+              })
+            } className="flex flex-col gap-4">
           <input
             type="text"
             placeholder="Titel"

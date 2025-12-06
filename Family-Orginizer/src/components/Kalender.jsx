@@ -1,75 +1,89 @@
 import Layout from "./Layout";
-import { useState } from "react";
-import Calendar from 'react-calendar'
+import { useState, useEffect } from "react";
+import Calendar from "react-calendar";
 import "../styles/styling.css";
 import Map from "./Map";
 import useToken from "./useToken";
 import UseFetchData from "./FetchEvents";
 import Login from "./login";
-import {nanoid} from "nanoid";
+import { nanoid } from "nanoid";
 
+function Kalender() {
+  const { token, setToken } = useToken();
+  const { events, setEvent } = UseFetchData(token);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [eventPositions, setEventPositions] = useState({});
+  useEffect(() => {
+    const stored = sessionStorage.getItem("eventPositions");
+    if (stored) {
+      setEventPositions(JSON.parse(stored));
+    }
+  }, []);
 
-function Kalender () {
-    const { token, setToken } = useToken();
-    const { events, setEvent } = UseFetchData(token);
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const eventsForSelectedDay = events.filter((event) => {
+  const eventsForSelectedDay = events.filter((event) => {
     const eventDate = new Date(event.date);
     return (
-        eventDate.getFullYear() === selectedDate.getFullYear() &&
-        eventDate.getMonth() === selectedDate.getMonth() &&
-        eventDate.getDate() === selectedDate.getDate()
+      eventDate.getFullYear() === selectedDate.getFullYear() &&
+      eventDate.getMonth() === selectedDate.getMonth() &&
+      eventDate.getDate() === selectedDate.getDate()
     );
-    });
+  });
 
-    if (!token) {
-        return <Login setToken={setToken} />;
-    }
 
-    
-    return(
-        <div className="bg-gradient-to-br from-indigo-500/20 via-sky-500/20 to-emerald-500/20 backdrop-blur-xl min-h-screen flex flex-col">
-            <Layout></Layout>
-            <div className="flex flex-1 items-center justify-center mt-7 ">
-                <div className="flex gap-10 w-full max-w-6xl px-6 ">
-                    <div className="shadow-xl rounded-3xl w-full max-w-[500px]  ">
-                    <Calendar onChange={(date) => setSelectedDate(date)}
-                        value={selectedDate}
-                        tileContent={({ date, view }) => {
-                        if (view !== "month") return null;
+  if (!token) {
+    return <Login setToken={setToken} />;
+  }
 
-                        const hasEvent = events.some((event) => {
-                          const eventDate = new Date(event.date);
-                          return (
-                            eventDate.getFullYear() === date.getFullYear() &&
-                            eventDate.getMonth() === date.getMonth() &&
-                            eventDate.getDate() === date.getDate()
-                          );
-                        });
-                    
-                        return hasEvent ? (
-                          <div className="flex justify-center mt-1">
-                           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-                          </div>
-                        ) : null;
-                    }}
-                        ></Calendar>
-                    </div>
-                    <div id="events" className="w-1/2 bg-white rounded-3xl shadow-xl p-6 flex items-center justify-center border border-[#a0a096]">
-                            <ul>
-                                {eventsForSelectedDay.map((event) => (
-                                    <li key={nanoid()} > {event.event} at {event.location} from {event.startTime} - {event.endTime}</li>
-                                ))}
-                            </ul>
-                    </div>
-                </div>
-            </div>
-            <div className="flex flex-1 items-center justify-center mt-10 mb-5">
-                <Map></Map>
-            </div>  
+  return (
+    <div className="bg-gradient-to-br from-indigo-500/20 via-sky-500/20 to-emerald-500/20 backdrop-blur-xl min-h-screen flex flex-col">
+      <Layout></Layout>
+      <div className="flex flex-1 items-center justify-center mt-7 ">
+        <div className="flex gap-10 w-full max-w-6xl px-6 ">
+          <div className="shadow-xl rounded-3xl w-full max-w-[500px]  ">
+            <Calendar
+              onChange={(date) => setSelectedDate(date)}
+              value={selectedDate}
+              tileContent={({ date, view }) => {
+                if (view !== "month") return null;
+
+                const hasEvent = events.some((event) => {
+                  const eventDate = new Date(event.date);
+                  return (
+                    eventDate.getFullYear() === date.getFullYear() &&
+                    eventDate.getMonth() === date.getMonth() &&
+                    eventDate.getDate() === date.getDate()
+                  );
+                });
+
+                return hasEvent ? (
+                  <div className="flex justify-center mt-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                  </div>
+                ) : null;
+              }}
+            ></Calendar>
+          </div>
+          <div
+            id="events"
+            className="w-1/2 bg-white rounded-3xl shadow-xl p-6 flex items-center justify-center border border-[#a0a096]"
+          >
+            <ul>
+              {eventsForSelectedDay.map((event) => (
+                <li key={nanoid()}>
+                  {" "}
+                  {event.event} at {event.location} from {event.startTime} -{" "}
+                  {event.endTime}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-    );
+      </div>
+      <div className="flex flex-1 items-center justify-center mt-10 mb-5">
+        <Map positions={eventPositions} events={events}></Map>
+      </div>
+    </div>
+  );
 }
 
 export default Kalender;
-

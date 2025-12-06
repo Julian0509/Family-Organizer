@@ -2,6 +2,7 @@ import Layout from "./Layout";
 import UseFetchUsers from "./FetchUsers";
 import useToken from "./useToken";
 import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
 
 function getRoleFromToken(token) {
   if (!token) return null;
@@ -25,41 +26,56 @@ function getFamilyFromToken(token) {
   }
 }
 
-function ManageUser(){
-    const { token } = useToken();
-    const { users } = UseFetchUsers(token);
-    const userRole = getRoleFromToken(token);
-    const mainFamily = getFamilyFromToken(token);
-    const filteredUsers = users.filter((user) => {
-      return user.familyId == mainFamily; 
+function ManageUser() {
+  const { token, setToken } = useToken();
+  const { users } = UseFetchUsers(token);
+  const userRole = getRoleFromToken(token);
+  const mainFamily = getFamilyFromToken(token);
+
+  const filteredUsers = users.filter((user) => {
+    return user.familyId == mainFamily;
+  });
+
+
+  const handleDeleteUser = (_id) => {
+
+    return fetch('http://localhost:3002/delete-user/${_id}', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({_id}),
     })
-    console.log(filteredUsers);
+      .then((data) => data.json())
+      .then(window.location.reload());
+  };
 
-    if(userRole == "admin"){
-        return (
-            <div className="flex flex-col gap-3">
-    {filteredUsers.map((user) => (
-      <div
-        key={user._id}
-        className="bg-white/80 backdrop-blur-lg shadow-md rounded-xl p-4 flex justify-between items-center"
-      >
-        <div>
-          <h3 className="text-lg font-semibold text-gray-800">{user.username}</h3>
-          <p className="text-sm text-gray-500">Rolle: {user.role}</p>
-        </div>
-
-        <div className="text-xs text-gray-400">
-          ID: {user._id}
-        </div>
+  if (userRole == "admin") {
+    return (
+      <div className="flex flex-col gap-3 bg-gradient-to-br from-indigo-500/20 via-sky-500/20 to-emerald-500/20 backdrop-blur-xl min-h-screen">
+        <Layout></Layout>
+        {filteredUsers.map((user) => (
+          <div
+            key={nanoid()}
+            className="bg-white/80 backdrop-blur-lg shadow-md rounded-xl p-4 flex justify-between items-center"
+          >
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800">
+                {user.user}
+              </h3>
+              <p className="text-sm text-gray-500">Role: {user.role}</p>
+            </div>
+            <button
+              onClick={() => handleDeleteUser(user._id)}
+              className="px-3 py-1 bg-red-400 text-white rounded-md hover:bg-red-500"
+            >
+              X
+            </button>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-        );
-    }
-    return(
-        <div>
-            No acces
-        </div>
     );
+  }
+  return <div>No acces</div>;
 }
 export default ManageUser;

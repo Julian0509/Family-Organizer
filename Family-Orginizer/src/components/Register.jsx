@@ -46,7 +46,7 @@ function Register({ setToken }) {
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Welcome</h1>
-        <p className="text-gray-500 mt-2">Please log in to continue</p>
+        <p className="text-gray-500 mt-2">Please register</p>
       </div>
 
       {/* Form */}
