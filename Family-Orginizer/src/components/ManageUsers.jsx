@@ -28,7 +28,7 @@ function getFamilyFromToken(token) {
 }
 
 function ManageUser() {
-  const { token, setToken } = useToken();
+  const { token } = useToken();
   const { users } = UseFetchUsers(token);
   const userRole = getRoleFromToken(token);
   const mainFamily = getFamilyFromToken(token);

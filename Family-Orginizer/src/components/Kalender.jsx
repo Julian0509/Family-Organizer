@@ -10,7 +10,7 @@ import { nanoid } from "nanoid";
 
 function Kalender() {
   const { token, setToken } = useToken();
-  const { events, setEvent } = UseFetchData(token);
+  const { events } = UseFetchData(token);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [eventPositions, setEventPositions] = useState({});
   useEffect(() => {

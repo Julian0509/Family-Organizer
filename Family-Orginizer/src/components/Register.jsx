@@ -12,7 +12,7 @@ async function registerUser(credentials) {
   }).then((data) => data.json());
 }
 
-function Register({ setToken }) {
+function Register() {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const [familyId, setFamilyId] = useState();
@@ -26,7 +26,7 @@ function Register({ setToken }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     navigate("/login");
-    const token = await registerUser({
+    await registerUser({
       username,
       password,
       familyId,
