@@ -30,13 +30,14 @@ function Register({ setToken }) {
 
     const handleSubmit = async e => {
         e.preventDefault();
+        navigate("/login");
         const token = await registerUser({
           username,
           password,
           familyId,
           role
         });
-        goToLogin();
+        
       }
 
   return (

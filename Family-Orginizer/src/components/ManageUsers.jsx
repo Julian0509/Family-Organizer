@@ -2,7 +2,8 @@ import Layout from "./Layout";
 import UseFetchUsers from "./FetchUsers";
 import useToken from "./useToken";
 import { nanoid } from "nanoid";
-import { useNavigate } from "react-router-dom";
+import EditUserModal from "./editUser";
+import { useState } from "react";
 
 function getRoleFromToken(token) {
   if (!token) return null;
@@ -31,20 +32,35 @@ function ManageUser() {
   const { users } = UseFetchUsers(token);
   const userRole = getRoleFromToken(token);
   const mainFamily = getFamilyFromToken(token);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const openEditUser = (user) => {
+    setSelectedUser(user);
+    setIsEditOpen(true);
+  };
+
+  const handleUserUpdated = (updatedUser) => {
+    setUsers((prev) =>
+      prev.map((u) =>
+        (u._id || u.id) === (updatedUser._id || updatedUser.id)
+          ? updatedUser
+          : u
+      )
+    );
+  };
 
   const filteredUsers = users.filter((user) => {
     return user.familyId == mainFamily;
   });
 
-
   const handleDeleteUser = (_id) => {
-
-    return fetch('http://localhost:3002/delete-user/${_id}', {
+    return fetch("http://localhost:3002/delete-user/${_id}", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({_id}),
+      body: JSON.stringify({ _id }),
     })
       .then((data) => data.json())
       .then(window.location.reload());
@@ -65,17 +81,37 @@ function ManageUser() {
               </h3>
               <p className="text-sm text-gray-500">Role: {user.role}</p>
             </div>
-            <button
-              onClick={() => handleDeleteUser(user._id)}
-              className="px-3 py-1 bg-red-400 text-white rounded-md hover:bg-red-500"
-            >
-              X
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => openEditUser(user)}
+                className="px-3 py-1 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDeleteUser(user._id)}
+                className="px-3 py-1 bg-red-400 text-white rounded-lg hover:bg-red-500"
+              >
+                X
+              </button>
+              
+            </div>
           </div>
         ))}
+        <EditUserModal
+          isOpen={isEditOpen}
+          user={selectedUser}
+          onClose={() => setIsEditOpen(false)}
+          onUserUpdated={handleUserUpdated}
+        />
       </div>
     );
   }
-  return <div>No acces</div>;
+  return (
+    <div className="bg-gradient-to-br from-indigo-500/20 via-sky-500/20 to-emerald-500/20 backdrop-blur-xl min-h-screen flex flex-col">
+      <Layout></Layout>
+      <p>No Acces</p>
+    </div>
+  );
 }
 export default ManageUser;

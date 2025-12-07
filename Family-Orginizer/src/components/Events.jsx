@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 import AddEventModal from "./addEvent";
 import { useState, useEffect } from "react";
 import EditEventModal from "./editevent";
+import CoordsModal from "./addCoords";
 
 function getUserFromToken(token) {
   if (!token) return null;
@@ -36,6 +37,20 @@ function Home() {
   const [editModal, setEditModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [coordsModalOpen, setCoordsModalOpen] = useState(false);
+  const [coordsEventId, setCoordsEventId] = useState(null);
+
+  const openCoordsModal = (id) => {
+    setCoordsEventId(id);
+    setCoordsModalOpen(true);
+  };
+
+  const saveCoords = (eventId, lat, lng) => {
+    setEventPositions((prev) => ({
+      ...prev,
+      [eventId]: { lat, lng },
+    }));
+  };
 
   const currentUser = getUserFromToken(token);
   const currentRole = getRoleFromToken(token);
@@ -169,6 +184,12 @@ function Home() {
             setShowEditModal(false);
           }}
         />
+        <CoordsModal
+          isOpen={coordsModalOpen}
+          eventId={coordsEventId}
+          onClose={() => setCoordsModalOpen(false)}
+          onSave={saveCoords}
+        />
         <div className="flex gap-2 mb-3">
           <input
             type="text"
@@ -203,7 +224,7 @@ function Home() {
                 </span>
 
                 <span className="text-xs text-gray-500 mt-1">
-                  Requirements: {event.requiredItems + ""} 
+                  Requirements: {event.requiredItems + ""}
                 </span>
                 <span className="text-xs text-gray-500 mt-1">
                   Added by: {event.organiser}
@@ -229,7 +250,7 @@ function Home() {
                   </div>
                   <div className="mt-3">
                     <button
-                      onClick={() => handleAddCoords(event._id)}
+                      onClick={() => openCoordsModal(event._id)}
                       className=" self-start px-3 py-1 bg-indigo-400 text-white rounded-3xl hover:bg-indigo-500"
                     >
                       add on Map
