@@ -1,15 +1,14 @@
 import Header from "./Header";
 
 function Layout() {
-    return (
-        <div>
-            <div>
-            <Header />
-            </div>
+  return (
+    <div>
+      <div>
+        <Header />
+      </div>
 
-            <main>
-            </main>
-        </div>
-    )
+      <main></main>
+    </div>
+  );
 }
 export default Layout;

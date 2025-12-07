@@ -68,26 +68,6 @@ function Home() {
     sessionStorage.setItem("eventPositions", JSON.stringify(eventPositions));
   }, [eventPositions]);
 
-  const handleAddCoords = (eventId) => {
-    const latStr = window.prompt("Latitude (lat) (example 49.1234)");
-    const lngStr = window.prompt("Longitude (lng) (example 6.9876)");
-
-    if (!latStr || !lngStr) return;
-
-    const lat = parseFloat(latStr);
-    const lng = parseFloat(lngStr);
-
-    if (isNaN(lat) || isNaN(lng)) {
-      alert("Please enter valid number");
-      return;
-    }
-
-    setEventPositions((prev) => ({
-      ...prev,
-      [eventId]: { lat, lng },
-    }));
-  };
-
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -98,7 +78,7 @@ function Home() {
         " " +
         (event.location || "") +
         " " +
-        (event.date || "") +
+        (new Date(event.date).toLocaleDateString("de-DE") || "") +
         " " +
         (event.requiredItems || "")
       ).toLowerCase();

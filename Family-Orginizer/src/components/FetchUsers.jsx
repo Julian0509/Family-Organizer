@@ -7,7 +7,7 @@ const UseFetchUsers = (token) => {
       user: "",
       role: "",
       familyId: "",
-      id: ""
+      id: "",
     },
   ]);
 

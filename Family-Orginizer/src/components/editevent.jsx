@@ -21,7 +21,7 @@ export default function EditEventModal({ isOpen, onClose, event, onSave }) {
   }, [event]);
 
   if (!isOpen) return null;
-    const addItem = () => {
+  const addItem = () => {
     if (itemInput.trim() === "") return;
     setItems([...requiredItems, itemInput]);
     setItemInput("");
@@ -34,22 +34,24 @@ export default function EditEventModal({ isOpen, onClose, event, onSave }) {
   return (
     <div className=" fixed inset-0 bg-black/40 backdrop-blur-sm flex items-start justify-center z-50 border-radius-24">
       <div className="mt-10 bg-white/90 backdrop-blur-xl rounded-2xl w-full max-w-md p-6 shadow-2xl animate-fadeIn">
-        
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">
           Edit Event
         </h2>
 
-        <form onSubmit={() =>
-              onSave({
-                ...event,
-                event: title,
-                date,
-                startTime,
-                endTime,
-                location,
-                requiredItems
-              })
-            } className="flex flex-col gap-4">
+        <form
+          onSubmit={() =>
+            onSave({
+              ...event,
+              event: title,
+              date,
+              startTime,
+              endTime,
+              location,
+              requiredItems,
+            })
+          }
+          className="flex flex-col gap-4"
+        >
           <input
             type="text"
             placeholder="Titel"

@@ -94,7 +94,6 @@ function ManageUser() {
               >
                 X
               </button>
-              
             </div>
           </div>
         ))}

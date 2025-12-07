@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function EditUserModal({
-  isOpen,
-  user,
-  onClose,
-  onUserUpdated,
-}) {
+export default function EditUserModal({ isOpen, user, onClose, onUserUpdated }) {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
