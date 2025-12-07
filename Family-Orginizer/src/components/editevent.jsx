@@ -12,11 +12,11 @@ export default function EditEventModal({ isOpen, onClose, event, onSave }) {
   useEffect(() => {
     if (event) {
       setTitle(event.event || "");
-      setDate(event.date || "")
+      setDate(event.date || "");
       setStartTime(event.startTime || "");
       setEndTime(event.endTime || "");
-      setLocation(event.location || "")
-      setItems(event.requiredItems || "")
+      setLocation(event.location || "");
+      setItems(event.requiredItems || []);
     }
   }, [event]);
 
@@ -32,11 +32,11 @@ export default function EditEventModal({ isOpen, onClose, event, onSave }) {
   };
 
   return (
-    <div className=" fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 border-radius-24">
+    <div className=" fixed inset-0 bg-black/40 backdrop-blur-sm flex items-start justify-center z-50 border-radius-24">
       <div className="mt-10 bg-white/90 backdrop-blur-xl rounded-2xl w-full max-w-md p-6 shadow-2xl animate-fadeIn">
         
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-          New Event
+          Edit Event
         </h2>
 
         <form onSubmit={() =>
@@ -47,7 +47,7 @@ export default function EditEventModal({ isOpen, onClose, event, onSave }) {
                 startTime,
                 endTime,
                 location,
-                removeItem
+                requiredItems
               })
             } className="flex flex-col gap-4">
           <input

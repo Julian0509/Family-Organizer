@@ -35,7 +35,7 @@ function Map({ positions, events }) {
   }
   return (
     <div>
-      <div className="w-[1100px] mt-5 h-[500px] overflow-hidden shadow-3xl border border-[#a0a096] rounded-3xl ">
+      <div className="w-[1100px] mt-5 h-[500px] overflow-hidden shadow-[0_18px_40px_rgba(0,0,0,0.35)] border border-[#a0a096] rounded-3xl ">
         <MapContainer
           center={start}
           zoom={13}

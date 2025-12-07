@@ -29,7 +29,6 @@ function Kalender() {
     );
   });
 
-
   if (!token) {
     return <Login setToken={setToken} />;
   }
@@ -63,23 +62,28 @@ function Kalender() {
               }}
             ></Calendar>
           </div>
-          <div
-            id="events"
-            className="w-1/2 bg-white rounded-3xl shadow-xl p-6 flex items-center justify-center border border-[#a0a096]"
-          >
-            <ul>
-              {eventsForSelectedDay.map((event) => (
-                <li key={nanoid()}>
-                  {" "}
-                  {event.event} at {event.location} from {event.startTime} -{" "}
-                  {event.endTime}
-                </li>
-              ))}
+          <div className="w-1/2 max-h-81 bg-[rgba(255,255,255,0.08)] rounded-3xl shadow-[0_18px_40px_rgba(0,0,0,0.35)] p-6 flex items-start justify-center border border-white/30 overflow-y-auto">
+            <ul className="space-y-2 list-none m-0 p-0">
+              {[...eventsForSelectedDay]
+                .sort((a, b) => a.startTime.localeCompare(b.startTime))
+                .map((event) => (
+                  <li
+                    key={nanoid()}
+                    className="border border-white rounded-xl p-3 shadow-sm bg-[rgba(255,255,255,0.4)]"
+                  >
+                    {" "}
+                    <strong>{event.event}</strong> at{" "}
+                    <strong>{event.location}</strong> from{" "}
+                    <strong>
+                      {event.startTime} - {event.endTime}
+                    </strong>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
       </div>
-      <div className="flex flex-1 items-center justify-center mt-10 mb-5">
+      <div className="flex flex-1 items-center justify-center mt-10 mb-5 ">
         <Map positions={eventPositions} events={events}></Map>
       </div>
     </div>

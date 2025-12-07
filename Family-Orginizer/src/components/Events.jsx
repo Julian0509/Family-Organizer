@@ -35,6 +35,7 @@ function Home() {
   const [showModal, setShowModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const currentUser = getUserFromToken(token);
   const currentRole = getRoleFromToken(token);
@@ -77,9 +78,21 @@ function Home() {
 
   const upcomingEvents = events
     .filter((event) => {
+      const text = (
+        (event.event || "") +
+        " " +
+        (event.location || "") +
+        " " +
+        (event.date || "") +
+        " " +
+        (event.requiredItems || "")
+      ).toLowerCase();
+
+      const matchesSearch =
+        searchTerm.trim() === "" || text.includes(searchTerm.toLowerCase());
       const eventDate = new Date(event.date);
       eventDate.setHours(0, 0, 0, 0);
-      return eventDate >= today;
+      return eventDate >= today && matchesSearch;
     })
     .sort((a, b) => {
       return new Date(a.date) - new Date(b.date);
@@ -120,9 +133,8 @@ function Home() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(event),
-    })
-      .then((data) => data.json())
-     // .then(window.location.reload());
+    }).then((data) => data.json());
+    // .then(window.location.reload());
   };
 
   if (!token) {
@@ -157,6 +169,15 @@ function Home() {
             setShowEditModal(false);
           }}
         />
+        <div className="flex gap-2 mb-3">
+          <input
+            type="text"
+            placeholder="Search for Name, Location, Date or Requirements"
+            className="input flex-1"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         {upcomingEvents.length === 0 && (
           <p className="text-gray-500 text-center">No upcoming Events</p>
         )}
@@ -182,7 +203,7 @@ function Home() {
                 </span>
 
                 <span className="text-xs text-gray-500 mt-1">
-                  Requirements: {event.requiredItems}
+                  Requirements: {event.requiredItems + ""} 
                 </span>
                 <span className="text-xs text-gray-500 mt-1">
                   Added by: {event.organiser}
