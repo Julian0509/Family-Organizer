@@ -83,7 +83,7 @@ function Kalender() {
           </div>
         </div>
       </div>
-      <div className="flex flex-1 items-center justify-center mt-10 mb-5 ">
+      <div className="flex flex-1 items-center justify-center">
         <Map positions={eventPositions} events={events}></Map>
       </div>
     </div>
