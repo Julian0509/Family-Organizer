@@ -9,33 +9,33 @@ export default function AddEventModal({ show, onClose, onSave }) {
   const [requiredItems, setItems] = useState([]);
   const [itemInput, setItemInput] = useState("");
 
-function getUserFromToken() {
-  const token = sessionStorage.getItem("token");
-  if (!token) return null;
+  function getUserFromToken() {
+    const token = sessionStorage.getItem("token");
+    if (!token) return null;
 
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.username; 
-  } catch (err) {
-    console.error("Token ungültig", err);
-    return null;
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      return payload.username;
+    } catch (err) {
+      console.error("Token ungültig", err);
+      return null;
+    }
   }
-}
 
-function getUserFamilyFromToken() {
-  const token = sessionStorage.getItem("token");
-  if (!token) return null;
+  function getUserFamilyFromToken() {
+    const token = sessionStorage.getItem("token");
+    if (!token) return null;
 
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.familyId; 
-  } catch (err) {
-    console.error("Token ungültig", err);
-    return null;
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      return payload.familyId;
+    } catch (err) {
+      console.error("Token ungültig", err);
+      return null;
+    }
   }
-}
 
-  if (!show) return null; 
+  if (!show) return null;
 
   const addItem = () => {
     if (itemInput.trim() === "") return;
@@ -61,17 +61,14 @@ function getUserFamilyFromToken() {
       userfamily: getUserFamilyFromToken(),
     };
 
-    onSave(newEvent);   
-    onClose();         
+    onSave(newEvent);
+    onClose();
   };
 
   return (
     <div className=" fixed inset-0 bg-black/40 backdrop-blur-sm flex items-start justify-center z-50 border-radius-24">
       <div className="mt-10 bg-white/90 backdrop-blur-xl rounded-2xl w-full max-w-md p-6 shadow-2xl animate-fadeIn">
-        
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-          New Event
-        </h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">New Event</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input

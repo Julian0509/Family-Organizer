@@ -21,14 +21,35 @@ class FamilyOrganiser {
 
             // Insert default event
              this.db.insert({
-                event: "gym",
-                date: '2025-09-16',
-                startTime: '16:15',
-                endTime: '17:00',
-                location: 'Sports Centre',
-                requiredItems: 'sports kit',
-                organiser: 'Admin1',
-                familyId: 'family_1'
+                event: "Gym",
+                date: '2025-12-19',
+                startTime: '11:30',
+                endTime: '12:30',
+                location: 'The Arc',
+                requiredItems: ['sport shoes', 'towel','water'],
+                organiser: 'Julian',
+                familyId: 'Schmitt'
+            });
+
+            this.db.insert({
+                event: "Christmas Shopping",
+                date: '2025-12-23',
+                startTime: '12:00',
+                endTime: '18:00',
+                location: 'Buchanan Galleries',
+                requiredItems: ['wallet'],
+                organiser: 'Emma',
+                familyId: 'Schmitt'
+            });
+            this.db.insert({
+                event: "Laundry",
+                date: '2025-12-23',
+                startTime: '11:00',
+                endTime: '12:00',
+                location: 'Caledonian Court',
+                requiredItems: ['Laundry', "Washing Pods"],
+                organiser: 'Emma',
+                familyId: 'Schmitt'
             });
 
             console.log('Events database initialized with default events');

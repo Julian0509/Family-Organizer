@@ -33,11 +33,9 @@ export default function CoordsModal({ isOpen, eventId, onClose, onSave }) {
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-start justify-center z-50">
       <div className="mt-10 bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
-
         <h2 className="text-lg font-semibold mb-4">Add Coordinates</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-
           <div>
             <label className="block text-sm font-medium mb-1">Latitude</label>
             <input
@@ -66,17 +64,16 @@ export default function CoordsModal({ isOpen, eventId, onClose, onSave }) {
               onClick={onClose}
               className="px-3 py-2 text-sm rounded-lg border border-gray-300"
             >
-              Abbrechen
+              Cancel
             </button>
 
             <button
               type="submit"
               className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white"
             >
-              Speichern
+              Safe
             </button>
           </div>
-
         </form>
       </div>
     </div>

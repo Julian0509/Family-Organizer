@@ -23,7 +23,20 @@ class userDAO {
                 console.log('User database already initialized or error occurred');
                 return;
             }
-
+            this.db.insert({
+                user:"Julian",
+                hash:"975e591101acd755cfc4efce517476ff1c3743bcb5c0e9ba5af5db93fb131fc4f46b7442be48d5b5635b845eeb9a9db6e3d92135353742edc84bc00022276543",
+                salt:"dc7a2367ff03b59dca0aa5ebbec41b394af8087a786ff9d0d1f3cc5e45cc5960",
+                role:"admin",
+                familyId:"Schmitt"
+            });
+            this.db.insert({
+                user:"Emma",
+                hash:"8e52b24f1a3e6f865994a63620c2ba837120c9910cb46e571d2b352e405d100d83c15acc9a2030e59de22119e52888700fa47d2c7f47b24a9a9d84222c9e9a2a",
+                salt:"bbfcc64e9bc0a08c319ab0d670482cf89c8664acc4507bf1e4377574633bfa2f",
+                role:"member",
+                familyId:"Schmitt"
+            });
             // const defaultAdmins = [
             //     {
             //         user: 'Test',
